@@ -1,6 +1,6 @@
 {
-  "name": "Jigsaw Extension for Sonic NFT Marketplace",
-  "description": "The Jigsaw Extension is a custom tool that improves the shortcut functionality of the Zonic NFT Marketplace. It helps collectors and traders find and track the NFTs they want with ease. Whether you're a seasoned pro or new to the world of NFTs, the Jigsaw Extension is the ultimate companion for your Zonic experience.",
+  "name": "Jigsaw Extension for Zonic NFT Marketplace",
+  "description": "Custom-made tool for the Zonic NFT Marketplace that helps collectors and traders find and track the NFTs they want with ease.",
   "version": "1.0.0",
   "manifest_version": 3,
   "content_scripts": [{
