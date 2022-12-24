@@ -1,0 +1,43 @@
+/* icon */
+.icon-sm {
+  width: 24px !important;
+  height: 24px !important;
+}
+.icon-opensea {
+  background: url(https://diewland.github.io/jigsaw-extension-for-zonic/assets/ico_opensea.png) center center no-repeat;
+  background-size: contain;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: .4s all;
+}
+
+/* animation */
+.fade-in {
+  animation: fadeIn 1s;
+  -webkit-animation: fadeIn 1s;
+  -moz-animation: fadeIn 1s;
+  -o-animation: fadeIn 1s;
+  -ms-animation: fadeIn 1s;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-moz-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-webkit-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-o-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-ms-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
