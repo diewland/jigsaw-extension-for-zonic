@@ -1,9 +1,5 @@
 /* icon */
-.icon-sm {
-  width: 24px !important;
-  height: 24px !important;
-}
-.icon-opensea {
+.ic-opensea {
   background: url(https://diewland.github.io/jigsaw-extension-for-zonic/assets/ico_opensea.png) center center no-repeat;
   background-size: contain;
   display: inline-block;
@@ -11,6 +7,11 @@
   height: 30px;
   cursor: pointer;
   transition: .4s all;
+  vertical-align: bottom;
+}
+.ic-sm {
+  width: 24px !important;
+  height: 24px !important;
 }
 
 /* animation */

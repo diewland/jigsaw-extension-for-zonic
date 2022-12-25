@@ -2,7 +2,14 @@ const SCREEN_HOME       = '';
 const SCREEN_PROFILE    = 'profile';
 const SCREEN_ASSET      = 'asset';
 const SCREEN_COLLECTION = 'collection';
+const CHAIN_OPTIMISM    = 'optimism';
+const CHAIN_ARBI_ONE    = 'arbitrum_one';
 const CHAIN_ARBI_NOVA   = 'arbitrum_nova';
+const OS_CHAIN_MAPPER   = {
+  [CHAIN_OPTIMISM]  : 'optimism',
+  [CHAIN_ARBI_ONE]  : 'arbitrum',
+  [CHAIN_ARBI_NOVA] : 'arbitrum_nova',
+};
 
 // common
 function find_dom(sel, callback, delay=1_000, retry=10, counter=0) {
@@ -16,6 +23,8 @@ function find_dom(sel, callback, delay=1_000, retry=10, counter=0) {
       find_dom(sel, callback, delay, retry, counter);
   }, delay);
 }
+let os_icon = url => `<a class="ic-opensea fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
+let os_icon_sm = url => `<a class="ic-opensea ic-sm fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
 
 // extract data from url
 let url = location.href;
@@ -30,10 +39,30 @@ function main() {
     console.log(`🧩 home`);
   }
 
-  // PROFILE -- https://zonic.app/profile
-  //         -- https://zonic.app/profile/<wallet>
+  // PROFILE
   else if (screen == SCREEN_PROFILE) {
     console.log(`🧩 screen -> profile`);
+
+    // add opensea icon
+    function add_os_icon(wallet) {
+      let url = `https://opensea.io/${wallet}`;
+      find_dom('.wallet-name', el => { el.innerHTML += os_icon_sm(url); });
+    }
+    // (1) https://zonic.app/profile, https://zonic.app/profile/
+    if ((url_data.length == 4) ||
+       ((url_data.length == 5) && (!url_data[4]))) {
+      // find wallet address from (first) nft owner
+      find_dom('.token-owner a', el => {
+        link_data = el.href.split('/');
+        let wallet = link_data[4];
+        add_os_icon(wallet);
+      });
+    }
+    // (2) https://zonic.app/profile/<wallet>
+    else if (url_data.length == 5) {
+      let wallet = url_data[4];
+      add_os_icon(wallet);
+    }
   }
 
   // COLLECTION -- https://zonic.app/collection/<chain>/<contract>
@@ -54,9 +83,9 @@ function main() {
     if (chain == CHAIN_ARBI_NOVA) return;
 
     // add opensea icon
-    let url = `https://opensea.io/assets/${chain}/${contract}/${token_id}`;
-    let ico_opensea = ` <a class="icon icon-opensea fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
-    find_dom('.token-name', el => { el.innerHTML += ico_opensea; });
+    let os_chain = OS_CHAIN_MAPPER[chain];
+    let url = `https://opensea.io/assets/${os_chain}/${contract}/${token_id}`;
+    find_dom('.token-name', el => { el.innerHTML += os_icon(url); });
   }
 
   // NOT SUPPORT
