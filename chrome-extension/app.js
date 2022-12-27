@@ -10,6 +10,7 @@ const OS_CHAIN_MAPPER   = {
   [CHAIN_ARBI_ONE]  : 'arbitrum',
   [CHAIN_ARBI_NOVA] : 'arbitrum_nova',
 };
+const DELAY_REFRESH_METADATA = 15 * 1_000; // 15s
 
 // common
 function find_dom(sel, callback, delay=1_000, retry=10, counter=0) {
@@ -78,6 +79,20 @@ function main() {
     let chain = url_data[4];
     let contract = url_data[5];
     let token_id = url_data[6];
+
+    // auto reload screen when click Refresh Metadata
+    find_dom('.controls-area i', el => {
+      el.onclick = _ => {
+        // set refresh screen delay
+        setTimeout(_ => location.reload(), DELAY_REFRESH_METADATA);
+        // update refresh icon
+        find_dom('.controls-area i', el2 => {
+          el2.classList.remove('mdi-refresh');
+          el2.classList.add('mdi-cog');
+          el2.classList.add('mdi-spin');
+        }, 100);
+      }
+    });
 
     // opensea not support arbitrum nova
     if (chain == CHAIN_ARBI_NOVA) return;
