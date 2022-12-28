@@ -1,3 +1,5 @@
+const KEY_SLASH         = '/';
+const KEY_ESC           = 'Escape';
 const SCREEN_HOME       = '';
 const SCREEN_PROFILE    = 'profile';
 const SCREEN_ASSET      = 'asset';
@@ -34,6 +36,18 @@ let screen = url_data[3];
 
 // main
 function main() {
+
+  // hotkey
+  document.body.onkeyup = evt => {
+    switch(evt.key) {
+      case KEY_ESC: // clear search bar
+        document.querySelector('.search-bar .clear-icon i').click();
+        break
+      case KEY_SLASH: // focus on search bar
+        document.querySelector('.search-input').focus();
+        break
+    }
+  }
 
   // HOME -- https://zonic.app
   if (screen == SCREEN_HOME) {
