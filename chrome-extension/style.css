@@ -14,6 +14,11 @@
   height: 24px !important;
 }
 
+/* seach bar */
+.search-result-item.active {
+  background-color: #454445;
+}
+
 /* animation */
 .fade-in {
   animation: fadeIn 1s;

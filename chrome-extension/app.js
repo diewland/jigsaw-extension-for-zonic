@@ -1,5 +1,8 @@
 const KEY_SLASH         = '/';
 const KEY_ESC           = 'Escape';
+const KEY_ARROW_UP      = 'ArrowUp';
+const KEY_ARROW_DOWN    = 'ArrowDown';
+const KEY_ENTER         = 'Enter';
 const SCREEN_HOME       = '';
 const SCREEN_PROFILE    = 'profile';
 const SCREEN_ASSET      = 'asset';
@@ -26,6 +29,17 @@ function find_dom(sel, callback, delay=1_000, retry=10, counter=0) {
       find_dom(sel, callback, delay, retry, counter);
   }, delay);
 }
+function find(sel, callback) {
+  let o = document.querySelector(sel);
+  if (o) callback(o);
+}
+let search_items = _ => document.querySelectorAll('.search-result-item');
+function mark_search_item(index) {
+  let items = search_items()
+  if (items.length == 0) return;
+  items.forEach(r => r.classList.remove('active'));
+  items[index].classList.add('active');
+}
 let os_icon = url => `<a class="ic-opensea fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
 let os_icon_sm = url => `<a class="ic-opensea ic-sm fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
 
@@ -34,6 +48,9 @@ let url = location.href;
 let url_data = url.split('/');
 let screen = url_data[3];
 
+// state
+let search_index = -1;
+
 // main
 function main() {
 
@@ -41,10 +58,29 @@ function main() {
   document.body.onkeyup = evt => {
     switch(evt.key) {
       case KEY_ESC: // clear search bar
-        document.querySelector('.search-bar .clear-icon i').click();
+        search_index = -1;
+        find('.search-bar .clear-icon i', o => o.click());
         break
       case KEY_SLASH: // focus on search bar
-        document.querySelector('.search-input').focus();
+        search_index = -1;
+        find('.search-input', o => o.focus());
+        break
+      case KEY_ARROW_UP: // move cursor up
+        if ((search_items().length == 0)||(search_index <= 0)) return;
+        search_index -= 1;
+        mark_search_item(search_index);
+        break
+      case KEY_ARROW_DOWN: // move cursor down
+        let size = search_items().length;
+        if ((size == 0)||(search_index >= size-1)) return;
+        search_index += 1;
+        mark_search_item(search_index);
+        break
+      case KEY_ENTER: // select item
+        find('.search-result-item.active a', o => o.click());
+        break
+      default:
+        search_index = -1;
         break
     }
   }
