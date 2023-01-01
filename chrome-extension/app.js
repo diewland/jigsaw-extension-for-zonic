@@ -131,12 +131,12 @@ function main() {
     let token_id = url_data[6];
 
     // auto reload screen when click Refresh Metadata
-    find_dom('.controls-area i', el => {
+    find_dom('.controls-area i.mdi-refresh', el => {
       el.onclick = _ => {
         // set refresh screen delay
         setTimeout(_ => location.reload(), DELAY_REFRESH_METADATA);
         // update refresh icon
-        find_dom('.controls-area i', el2 => {
+        find_dom('.controls-area i.mdi-refresh', el2 => {
           el2.classList.remove('mdi-refresh');
           el2.classList.add('mdi-cog');
           el2.classList.add('mdi-spin');
