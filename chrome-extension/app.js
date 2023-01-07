@@ -10,10 +10,7 @@ let search_index = -1;
 function main() {
 
   // jump to top
-  var button_br = document.createElement('div');
-  button_br.innerHTML = `<div class='fixed-br' title='Jump to Top'><i class='mdi-arrow-up mdi v-icon notranslate v-theme--dark v-icon--size-x-large text-white v-icon--clickable control-icon'></i></div>`;
-  button_br.onclick = _ => { scrollToSmoothly(0) };
-  document.body.prepend(button_br);
+  add_jump_arrows();
 
   // hotkey
   document.body.onkeyup = evt => {
