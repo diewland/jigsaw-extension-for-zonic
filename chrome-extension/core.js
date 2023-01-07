@@ -62,9 +62,9 @@ let force_jump_stop = false;
 function jump_to_end(prev_h=0, round=0) {
   console.log('round #', round);
   // break
-  // 1) same height for 3s
+  // 1) same height for 2s
   // 2) jump to top
-  if ((round == 3) || force_jump_stop) {
+  if ((round == 2) || force_jump_stop) {
     console.log('break!');
     jumping_flag = false;
     force_jump_stop = false;
