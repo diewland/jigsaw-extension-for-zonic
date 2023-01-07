@@ -27,6 +27,14 @@ function mark_search_item(index) {
 // icons
 let os_icon = url => `<a class="ic-opensea fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
 let os_icon_sm = url => `<a class="ic-opensea ic-sm fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
+function add_loading_icon(el) {
+  el.classList.add('mdi-cog');
+  el.classList.add('mdi-spin');
+}
+function remove_loading_icon(el) {
+  el.classList.remove('mdi-cog');
+  el.classList.remove('mdi-spin');
+}
 
 // jump to top -- https://stackoverflow.com/a/51689657/466693
 function scrollToSmoothly(pos, time) {
@@ -49,9 +57,58 @@ function scrollToSmoothly(pos, time) {
         }
     });
 }
+let jumping_flag = false;
+let force_jump_stop = false;
+function jump_to_end(prev_h=0, round=0) {
+  console.log('round #', round);
+  // break
+  // 1) same height for 3s
+  // 2) jump to top
+  if ((round == 3) || force_jump_stop) {
+    console.log('break!');
+    jumping_flag = false;
+    force_jump_stop = false;
+    find('.fixed-br i.mdi-spin', el => {
+      remove_loading_icon(el);
+      el.classList.add('mdi-arrow-down');
+    });
+    return;
+  }
+  // height diff ? jump to end of page
+  let h = document.body.scrollHeight;
+  if (h != prev_h) {
+    console.log('jump!');
+    scrollToSmoothly(h);
+    round = 0;
+  }
+  // next round in 1s
+  setTimeout(_ => {
+    jump_to_end(h, ++round);
+  }, 1_000);
+}
 function add_jump_arrows() {
-  var button_br = document.createElement('div');
-  button_br.innerHTML = `<div class='fixed-br' title='Jump to Top'><i class='mdi-arrow-up mdi v-icon notranslate v-theme--dark v-icon--size-x-large text-white v-icon--clickable control-icon'></i></div>`;
-  button_br.onclick = _ => { scrollToSmoothly(0) };
-  document.body.prepend(button_br);
+  let jump_arrows = document.createElement('div');
+  jump_arrows.innerHTML = `
+  <div class='fixed-br'>
+    <i title='Jump to Top' class='mdi-arrow-up mdi v-icon notranslate v-theme--dark v-icon--size-x-large text-white v-icon--clickable control-icon'></i><br>
+    <i title='Jump to End' class='mdi-arrow-down mdi v-icon notranslate v-theme--dark v-icon--size-x-large text-white v-icon--clickable control-icon'></i>
+  </div>
+  `;
+  document.body.prepend(jump_arrows);
+  find('.fixed-br i.mdi-arrow-up', el => {
+    el.onclick = _ => {
+      force_jump_stop = true;
+      scrollToSmoothly(0);
+    }
+  });
+  find('.fixed-br i.mdi-arrow-down', el => {
+    el.onclick = _ => {
+      if (jumping_flag) return;
+      jumping_flag = true;
+      force_jump_stop = false;
+      el.classList.remove('mdi-arrow-down');
+      add_loading_icon(el);
+      jump_to_end();
+    }
+  });
 }

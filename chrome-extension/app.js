@@ -96,8 +96,7 @@ function main() {
         // update refresh icon
         find_dom('.controls-area i.mdi-refresh', el2 => {
           el2.classList.remove('mdi-refresh');
-          el2.classList.add('mdi-cog');
-          el2.classList.add('mdi-spin');
+          add_loading_icon(el2);
         }, 100);
       }
     });
