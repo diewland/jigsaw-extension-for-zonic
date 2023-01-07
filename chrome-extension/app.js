@@ -1,48 +1,3 @@
-const KEY_SLASH         = '/';
-const KEY_ESC           = 'Escape';
-const KEY_ARROW_UP      = 'ArrowUp';
-const KEY_ARROW_DOWN    = 'ArrowDown';
-const KEY_ENTER         = 'Enter';
-const SCREEN_HOME       = '';
-const SCREEN_PROFILE    = 'profile';
-const SCREEN_ASSET      = 'asset';
-const SCREEN_COLLECTION = 'collection';
-const CHAIN_OPTIMISM    = 'optimism';
-const CHAIN_ARBI_ONE    = 'arbitrum_one';
-const CHAIN_ARBI_NOVA   = 'arbitrum_nova';
-const OS_CHAIN_MAPPER   = {
-  [CHAIN_OPTIMISM]  : 'optimism',
-  [CHAIN_ARBI_ONE]  : 'arbitrum',
-  [CHAIN_ARBI_NOVA] : 'arbitrum_nova',
-};
-const DELAY_REFRESH_METADATA = 15 * 1_000; // 15s
-
-// common
-function find_dom(sel, callback, delay=1_000, retry=10, counter=0) {
-  setTimeout(_ => {
-    counter += 1;
-    console.log(`(${counter}/10) find [${sel}] ..`);
-    let dom = document.querySelector(sel);
-    if (dom)
-      callback(dom);
-    else if (counter < retry)
-      find_dom(sel, callback, delay, retry, counter);
-  }, delay);
-}
-function find(sel, callback) {
-  let o = document.querySelector(sel);
-  if (o) callback(o);
-}
-let search_items = _ => document.querySelectorAll('.search-result-item');
-function mark_search_item(index) {
-  let items = search_items()
-  if (items.length == 0) return;
-  items.forEach(r => r.classList.remove('active'));
-  items[index].classList.add('active');
-}
-let os_icon = url => `<a class="ic-opensea fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
-let os_icon_sm = url => `<a class="ic-opensea ic-sm fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
-
 // extract data from url
 let url = location.href;
 let url_data = url.split('/');
@@ -53,6 +8,12 @@ let search_index = -1;
 
 // main
 function main() {
+
+  // jump to top
+  var button_br = document.createElement('div');
+  button_br.innerHTML = `<div class='fixed-br' title='Jump to Top'><i class='mdi-arrow-up mdi v-icon notranslate v-theme--dark v-icon--size-x-large text-white v-icon--clickable control-icon'></i></div>`;
+  button_br.onclick = _ => { scrollToSmoothly(0) };
+  document.body.prepend(button_br);
 
   // hotkey
   document.body.onkeyup = evt => {
