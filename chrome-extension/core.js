@@ -138,7 +138,10 @@ function add_jump_arrows() {
   });
   find('.fixed-br i.mdi-arrow-down', el => {
     el.onclick = _ => {
-      if (jumping_flag) return;
+      if (jumping_flag) {
+        force_jump_stop = true;
+        return;
+      }
       jumping_flag = true;
       force_jump_stop = false;
       el.classList.remove('mdi-arrow-down');
