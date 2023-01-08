@@ -110,8 +110,8 @@ function jump_to_end(prev_h=0, round=1) {
     console.log('break!');
     jumping_flag = false;
     force_jump_stop = false;
-    find('.fixed-br i.mdi-spin', el => {
-      remove_loading_icon(el);
+    find('.fixed-br i.mdi-pause', el => {
+      el.classList.remove('mdi-pause');
       el.classList.add('mdi-arrow-down');
     });
     return;
@@ -145,7 +145,7 @@ function add_jump_arrows() {
       jumping_flag = true;
       force_jump_stop = false;
       el.classList.remove('mdi-arrow-down');
-      add_loading_icon(el);
+      el.classList.add('mdi-pause');
       jump_to_end();
     }
   });
