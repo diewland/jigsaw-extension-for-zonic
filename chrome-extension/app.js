@@ -3,9 +3,6 @@ let url = location.href;
 let url_data = url.split('/');
 let screen = url_data[3];
 
-// state
-let search_index = -1;
-
 // main
 function main() {
 
@@ -13,35 +10,7 @@ function main() {
   add_jump_arrows();
 
   // hotkey
-  document.body.onkeyup = evt => {
-    switch(evt.key) {
-      case KEY_ESC: // clear search bar
-        search_index = -1;
-        find('.search-bar .clear-icon i', o => o.click());
-        break
-      case KEY_SLASH: // focus on search bar
-        search_index = -1;
-        find('.search-input', o => o.focus());
-        break
-      case KEY_ARROW_UP: // move cursor up
-        if ((search_items().length == 0)||(search_index <= 0)) return;
-        search_index -= 1;
-        mark_search_item(search_index);
-        break
-      case KEY_ARROW_DOWN: // move cursor down
-        let size = search_items().length;
-        if ((size == 0)||(search_index >= size-1)) return;
-        search_index += 1;
-        mark_search_item(search_index);
-        break
-      case KEY_ENTER: // select item
-        find('.search-result-item.active a', o => o.click());
-        break
-      default:
-        search_index = -1;
-        break
-    }
-  }
+  bind_hotkeys();
 
   // HOME -- https://zonic.app
   if (screen == SCREEN_HOME) {
