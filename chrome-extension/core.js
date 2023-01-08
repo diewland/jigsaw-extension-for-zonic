@@ -61,7 +61,7 @@ function bind_hotkeys() {
         mark_search_item(search_index);
         break
       case KEY_ENTER: // select item
-        find('.search-result-item.active a', o => o.click());
+        find('.search-result-item.active', o => o.parentElement.click());
         break
       default:
         search_index = -1;
