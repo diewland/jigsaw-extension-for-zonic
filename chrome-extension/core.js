@@ -93,12 +93,20 @@ function scrollToSmoothly(pos, time) {
 }
 let jumping_flag = false;
 let force_jump_stop = false;
-function jump_to_end(prev_h=0, round=0) {
+function jump_to_end(prev_h=0, round=1) {
   console.log('round #', round);
+  // height diff ? jump to end of page
+  let h = document.body.scrollHeight;
+  if (h != prev_h) {
+    console.log('jump!');
+    scrollToSmoothly(h);
+    round = 0;
+  }
+  let next_round = round + 1;
   // break
-  // 1) same height for 2s
+  // 1) same height for 2 rounds
   // 2) jump to top
-  if ((round == 2) || force_jump_stop) {
+  if ((next_round > 2) || force_jump_stop) {
     console.log('break!');
     jumping_flag = false;
     force_jump_stop = false;
@@ -108,16 +116,9 @@ function jump_to_end(prev_h=0, round=0) {
     });
     return;
   }
-  // height diff ? jump to end of page
-  let h = document.body.scrollHeight;
-  if (h != prev_h) {
-    console.log('jump!');
-    scrollToSmoothly(h);
-    round = 0;
-  }
   // next round in 1s
   setTimeout(_ => {
-    jump_to_end(h, ++round);
+    jump_to_end(h, next_round);
   }, 1_000);
 }
 function add_jump_arrows() {
