@@ -27,6 +27,9 @@ function main() {
       find_dom('.wallet-name', el => { el.innerHTML += os_icon_sm(url); });
     }
     // (1) https://zonic.app/profile, https://zonic.app/profile/
+    //
+    // TODO username bug
+    //
     if ((url_data.length == 4) ||
        ((url_data.length == 5) && (!url_data[4]))) {
       // find wallet address from (first) nft owner
@@ -37,6 +40,9 @@ function main() {
       });
     }
     // (2) https://zonic.app/profile/<wallet>
+    //
+    // TODO username bug
+    //
     else if (url_data.length == 5) {
       let wallet = url_data[4];
       add_os_icon(wallet);
@@ -69,9 +75,6 @@ function main() {
         }, 100);
       }
     });
-
-    // opensea not support arbitrum nova
-    if (chain == CHAIN_ARBI_NOVA) return;
 
     // add opensea icon
     let os_chain = OS_CHAIN_MAPPER[chain];

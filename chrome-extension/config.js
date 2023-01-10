@@ -13,6 +13,6 @@ const CHAIN_ARBI_NOVA   = 'arbitrum_nova';
 const OS_CHAIN_MAPPER   = {
   [CHAIN_OPTIMISM]  : 'optimism',
   [CHAIN_ARBI_ONE]  : 'arbitrum',
-  [CHAIN_ARBI_NOVA] : 'arbitrum_nova',
+  [CHAIN_ARBI_NOVA] : 'arbitrum-nova',
 };
 const DELAY_REFRESH_METADATA = 15 * 1_000; // 15s
