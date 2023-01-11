@@ -1,17 +1,8 @@
 /* icon */
-.ic-opensea {
+.icon-opensea {
   background: url(https://diewland.github.io/jigsaw-extension-for-zonic/assets/ico_opensea.png) center center no-repeat;
   background-size: contain;
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  transition: .4s all;
-  vertical-align: bottom;
-}
-.ic-sm {
-  width: 24px !important;
-  height: 24px !important;
+  filter: none !important;
 }
 
 /* seach bar */

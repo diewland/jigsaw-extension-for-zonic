@@ -17,36 +17,18 @@ function main() {
     console.log(`🧩 home`);
   }
 
-  // PROFILE
+  // PROFILE -- https://zonic.app/profile(/[wallet|username])
   else if (screen == SCREEN_PROFILE) {
     console.log(`🧩 screen -> profile`);
 
     // add opensea icon
-    function add_os_icon(wallet) {
-      let url = `https://opensea.io/${wallet}`;
-      find_dom('.wallet-name', el => { el.innerHTML += os_icon_sm(url); });
-    }
-    // (1) https://zonic.app/profile, https://zonic.app/profile/
-    //
-    // TODO username bug
-    //
-    if ((url_data.length == 4) ||
-       ((url_data.length == 5) && (!url_data[4]))) {
-      // find wallet address from (first) nft owner
-      find_dom('.token-owner a', el => {
-        link_data = el.href.split('/');
-        let wallet = link_data[4];
-        add_os_icon(wallet);
-      });
-    }
-    // (2) https://zonic.app/profile/<wallet>
-    //
-    // TODO username bug
-    //
-    else if (url_data.length == 5) {
-      let wallet = url_data[4];
-      add_os_icon(wallet);
-    }
+    let op_icon = document.querySelector('.wallet-addresses-bar a');
+    let wallet = op_icon.href.split('/')[4];
+    let os_icon = op_icon.cloneNode();
+    os_icon.innerHTML = op_icon.innerHTML;
+    os_icon.querySelector('img').src = 'https://opensea.io/static/images/logos/opensea.svg';
+    os_icon.href = `https://opensea.io/${wallet}`;
+    document.querySelector('.wallet-addresses-bar').append(os_icon);
   }
 
   // COLLECTION -- https://zonic.app/collection/<chain>/<contract>
@@ -79,7 +61,11 @@ function main() {
     // add opensea icon
     let os_chain = OS_CHAIN_MAPPER[chain];
     let url = `https://opensea.io/assets/${os_chain}/${contract}/${token_id}`;
-    find_dom('.token-name', el => { el.innerHTML += os_icon(url); });
+    let os_icon = document.querySelector('.links-bar a.icon-etherscan').cloneNode();
+    os_icon.classList.remove('icon-etherscan');
+    os_icon.classList.add('icon-opensea');
+    os_icon.href = url;
+    document.querySelector('.links-bar').append(os_icon);
   }
 
   // NOT SUPPORT

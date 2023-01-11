@@ -25,8 +25,6 @@ function mark_search_item(index) {
 }
 
 // icons
-let os_icon = url => `<a class="ic-opensea fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
-let os_icon_sm = url => `<a class="ic-opensea ic-sm fade-in" title="OpenSea" href="${url}" target="_blank"></a>`;
 function add_loading_icon(el) {
   el.classList.add('mdi-cog');
   el.classList.add('mdi-spin');
