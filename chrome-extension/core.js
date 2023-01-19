@@ -16,7 +16,8 @@ function find(sel, callback) {
 }
 
 // search items
-let search_items = _ => document.querySelectorAll('.search-result-item');
+let search_sel = '.search-result-box>a>div';
+let search_items = _ => document.querySelectorAll(search_sel);
 function mark_search_item(index) {
   let items = search_items()
   if (items.length == 0) return;
@@ -59,7 +60,7 @@ function bind_hotkeys() {
         mark_search_item(search_index);
         break
       case KEY_ENTER: // select item
-        find('.search-result-item.active', o => o.parentElement.click());
+        find(search_sel+'.active', o => o.parentElement.click());
         break
       default:
         search_index = -1;

@@ -6,7 +6,7 @@
 }
 
 /* seach bar */
-.search-result-item.active {
+.search-result-box>a>div.active {
   background-color: #454445;
 }
 
