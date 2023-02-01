@@ -5,7 +5,10 @@
   "manifest_version": 3,
   "icons": { "128": "jigsaw_128.png" },
   "content_scripts": [{
-    "matches": ["https://zonic.app/*"],
+    "matches": [
+      "https://zonic.app/*",
+      "https://opensea.io/*"
+    ],
     "js": ["config.js", "core.js", "app.js"],
     "css": ["style.css"]
   }]

@@ -1,16 +1,15 @@
 // extract data from url
 let url = location.href;
 let url_data = url.split('/');
-let screen = url_data[3];
+let site = url_data[2];
+let screen = url_data[3].split('?')[0];
 
-// main
-function main() {
+// ********** ZONIC **********
 
-  // jump to top
-  add_jump_arrows();
+function inject_zonic() {
 
-  // hotkey
-  bind_hotkeys();
+  add_jump_arrows();  // infinity scroll
+  bind_hotkeys();     // hacker search
 
   // HOME -- https://zonic.app
   if (screen == SCREEN_HOME) {
@@ -74,4 +73,62 @@ function main() {
   }
 
 }
-main();
+
+// ********** OPENSEA **********
+
+function inject_opensea() {
+
+  // HOME -- https://opensea.io
+  if (screen == SCREEN_HOME) {
+    console.log(`🧩 home`);
+  }
+
+  // ASSET -- https://opensea.io/asset/<chain>/<contract>/<id>
+  else if (screen == SCREEN_ASSET_OS) {
+    console.log(`🧩 screen -> asset`);
+
+    let chain = url_data[4];
+    let contract = url_data[5];
+    let token_id = url_data[6];
+
+    // add opensea icon
+    console.log(chain, contract, token_id);
+    /* TODO
+    let os_chain = OS_CHAIN_MAPPER[chain];
+    let url = `https://opensea.io/assets/${os_chain}/${contract}/${token_id}`;
+    let os_icon = document.querySelector('.links-bar a.icon-etherscan').cloneNode();
+    os_icon.classList.remove('icon-etherscan');
+    os_icon.classList.add('icon-opensea');
+    os_icon.href = url;
+    document.querySelector('.links-bar').append(os_icon);
+    */
+  }
+
+  // COLLECTION -- https://opensea.io/collection/<collection-name>
+  else if (screen == SCREEN_COLLECTION) {
+    console.log(`🧩 screen -> collection`);
+
+    let data = document.querySelector('.sc-f0b2142c-0 a.sc-1f719d57-0').href.split('/');
+    console.log(data);
+    // ['https:', '', 'opensea.io', 'assets', 'optimism', '0x1e4e168c59033e6040eefe294c8d0a02aa770246', '5030']
+    // ['https:', '', 'opensea.io', 'assets', 'arbitrum-nova', '0xaeb42df0e269a23177e962740c87cb2d1a2c25fc', '62']
+  }
+
+  // PROFILE --- https://opensea.io/[account|0xJigsaw]
+  else if (screen && !url_data[4]) {
+    console.log(`🧩 screen -> profile`);
+  }
+
+  // NOT SUPPORT
+  else {
+    console.log(`🧩 not support url ${url}`);
+  }
+
+}
+
+// ********** MAIN **********
+
+if (site == SITE_ZONIC)
+  inject_zonic();
+else if (site == SITE_OPENSEA)
+  inject_opensea();
