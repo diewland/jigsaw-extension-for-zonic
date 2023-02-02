@@ -65,6 +65,15 @@ function inject_zonic() {
     os_icon.classList.add('icon-opensea');
     os_icon.href = url;
     document.querySelector('.links-bar').append(os_icon);
+
+    // apetimism exclusive: show 3D asset
+    if ((chain == CHAIN_OPTIMISM) && (contract.toLowerCase() == APETI_ADDR)) {
+      let mint_key = APETI_MINT_KEYS[+token_id];
+      if (mint_key == 'hidden') return;
+      import_model_viewer();
+      update_3d_asset(mint_key);
+      console.log(`🐵 woo hoo!`);
+    }
   }
 
   // NOT SUPPORT

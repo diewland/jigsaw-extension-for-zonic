@@ -149,3 +149,29 @@ function add_jump_arrows() {
     }
   });
 }
+
+// model-viewer
+function import_model_viewer() {
+  // https://meet-martin.medium.com/using-javascript-es6-import-export-modules-in-chrome-extensions-f63a3a0d2736
+  // 'use strict';
+  const script = document.createElement('script');
+  script.setAttribute("type", "module");
+  script.setAttribute("src", "https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js");
+  const head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
+  head.insertBefore(script, head.lastChild);
+}
+function update_3d_asset(mint_key) {
+  // craft model-viewer
+  let html = `<model-viewer src="https://diew.app/proxy/apeti3d.php?q=${mint_key}" ar="true" ar-modes="webxr scene-viewer quick-look" environment-image="neutral" auto-rotate="true" camera-controls="true" ar-status="not-presenting" style="position: absolute; top: 0; width: 100%; height: 100%; object-fit: contain;"></model-viewer>`;
+  // clone wrapper style from .token-image[data-v-0e26542b]
+  let wrapper = document.createElement('div');
+  wrapper.innerHTML = html;
+  wrapper.style.position = 'absolute';
+  wrapper.style.top = '0px';
+  wrapper.style.width = '100%';
+  wrapper.style.height = '100%';
+  wrapper.style.objectFit = 'contain';
+  // replace NFT image with 3D viewer
+  let nft_img = document.querySelector('.token-image');
+  document.querySelector('.token-image-wrapper').replaceChild(wrapper, nft_img);
+}
