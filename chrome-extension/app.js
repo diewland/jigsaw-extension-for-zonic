@@ -68,10 +68,10 @@ function inject_zonic() {
 
     // apetimism exclusive: show 3D asset
     if ((chain == CHAIN_OPTIMISM) && (contract.toLowerCase() == APETI_ADDR)) {
-      let mint_key = APETI_MINT_KEYS[+token_id];
-      if (mint_key == 'hidden') return;
+      let url = resolve_3d_url(+token_id);
+      if (url == null) return;
       import_model_viewer();
-      update_3d_asset(mint_key);
+      update_3d_asset(url);
       console.log(`🐵 woo hoo!`);
     }
   }

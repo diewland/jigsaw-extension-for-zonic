@@ -160,9 +160,17 @@ function import_model_viewer() {
   const head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
   head.insertBefore(script, head.lastChild);
 }
-function update_3d_asset(mint_key) {
+function resolve_3d_url(token_id) {
+  // (1) specific number
+  if (token_id == 33) return 'https://cloudflare-ipfs.com/ipfs/bafybeib2afj2he7zmyxisrgohpvkuokb6o2mc64kddprztmymbjgie2ylq';
+  // (2) mint keys
+  let mint_key = APETI_MINT_KEYS[token_id];
+  if (mint_key == 'hidden') return null;
+  return 'https://diew.app/proxy/apeti3d.php?q='+mint_key;
+}
+function update_3d_asset(url) {
   // craft model-viewer
-  let html = `<model-viewer class="token-imagez" src="https://diew.app/proxy/apeti3d.php?q=${mint_key}" ar="true" ar-modes="webxr scene-viewer quick-look" environment-image="neutral" auto-rotate="true" camera-controls="true" ar-status="not-presenting"></model-viewer>`;
+  let html = `<model-viewer class="token-imagez" src="${url}" ar="true" ar-modes="webxr scene-viewer quick-look" environment-image="neutral" auto-rotate="true" camera-controls="true" ar-status="not-presenting"></model-viewer>`;
   // clone wrapper style from .token-image[data-v-0e26542b]
   let model = document.createElement('div');
   model.innerHTML = html;
