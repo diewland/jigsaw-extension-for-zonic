@@ -162,16 +162,16 @@ function import_model_viewer() {
 }
 function update_3d_asset(mint_key) {
   // craft model-viewer
-  let html = `<model-viewer src="https://diew.app/proxy/apeti3d.php?q=${mint_key}" ar="true" ar-modes="webxr scene-viewer quick-look" environment-image="neutral" auto-rotate="true" camera-controls="true" ar-status="not-presenting" style="position: absolute; top: 0; width: 100%; height: 100%; object-fit: contain;"></model-viewer>`;
+  let html = `<model-viewer class="token-imagez" src="https://diew.app/proxy/apeti3d.php?q=${mint_key}" ar="true" ar-modes="webxr scene-viewer quick-look" environment-image="neutral" auto-rotate="true" camera-controls="true" ar-status="not-presenting"></model-viewer>`;
   // clone wrapper style from .token-image[data-v-0e26542b]
-  let wrapper = document.createElement('div');
-  wrapper.innerHTML = html;
-  wrapper.style.position = 'absolute';
-  wrapper.style.top = '0px';
-  wrapper.style.width = '100%';
-  wrapper.style.height = '100%';
-  wrapper.style.objectFit = 'contain';
-  // replace NFT image with 3D viewer
-  let nft_img = document.querySelector('.token-image');
-  document.querySelector('.token-image-wrapper').replaceChild(wrapper, nft_img);
+  let model = document.createElement('div');
+  model.innerHTML = html;
+  model.classList.add('token-imagez');
+  // prepare dom
+  let img = document.querySelector('.token-image');
+  let rank = document.querySelector('.token-ranking');
+  // adjust background image
+  img.style.filter = 'blur(10px) brightness(0.25)';
+  // insert 3D model
+  document.querySelector('.token-image-wrapper').insertBefore(model, rank);
 }
