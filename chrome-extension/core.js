@@ -179,7 +179,7 @@ function update_3d_asset(url) {
   let img = document.querySelector('.token-image');
   let rank = document.querySelector('.token-ranking');
   // adjust background image
-  img.style.filter = 'blur(10px) brightness(0.25)';
+  img.classList.add('bg-blur');
   // insert 3D model
   document.querySelector('.token-image-wrapper').insertBefore(model, rank);
 }
