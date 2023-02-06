@@ -120,12 +120,30 @@ function inject_opensea() {
     let data = document.querySelector('.sc-f0b2142c-0 a.sc-1f719d57-0').href.split('/');
     console.log(data);
     // ['https:', '', 'opensea.io', 'assets', 'optimism', '0x1e4e168c59033e6040eefe294c8d0a02aa770246', '5030']
+    // ['https:', '', 'opensea.io', 'assets', 'arbitrum', '0xdae85d8a71e7b8ec737fffab8e5a6b1d0580de22', '1']
     // ['https:', '', 'opensea.io', 'assets', 'arbitrum-nova', '0xaeb42df0e269a23177e962740c87cb2d1a2c25fc', '62']
   }
 
   // PROFILE --- https://opensea.io/[account|0xJigsaw]
+  // TODO https://opensea.io/account/collected
   else if (screen && !url_data[4]) {
     console.log(`🧩 screen -> profile`);
+
+    // TODO how to get wallet address ?
+
+    // TODO not work with user w/o social links (ex https://opensea.io/nuuneoi)
+    // get icon bar
+    let sel = '.sc-29427738-0.sc-630fc9ab-0.sc-35f75ba4-0';
+    let bar = document.querySelector(sel);
+    // craft zonic icon
+    let icon1 = document.querySelector(sel + ' a.sc-1f719d57-0');
+    let zonic_icon = icon1.cloneNode();
+    zonic_icon.innerHTML = icon1.innerHTML;
+    zonic_icon.querySelector('button').innerHTML = `<img src='https://zonic.app/logo3.svg'>`;
+    zonic_icon.classList.add('fade-in');
+    zonic_icon.href = 'https://zonic.app/profile/apetimism';
+    // inject zonic to icon bar
+    bar.prepend(zonic_icon);
   }
 
   // NOT SUPPORT
