@@ -1,8 +1,17 @@
+// screen variables
+let url = null;
+let url_data = null;
+let site = null;
+let screen = null;
+
 // extract data from url
-let url = location.href;
-let url_data = url.split('/');
-let site = url_data[2];
-let screen = url_data[3].split('?')[0];
+function extract_url_data(new_url) {
+  url = new_url;
+  url_data = url.split('/');
+  site = url_data[2];
+  screen = url_data[3].split('?')[0];
+}
+extract_url_data(location.href);
 
 // ********** ZONIC **********
 
@@ -27,6 +36,7 @@ function inject_zonic() {
     os_icon.innerHTML = op_icon.innerHTML;
     os_icon.querySelector('img').src = 'https://opensea.io/static/images/logos/opensea.svg';
     os_icon.href = `https://opensea.io/${wallet}`;
+    os_icon.target = '_self';
     document.querySelector('.wallet-addresses-bar').append(os_icon);
   }
 
@@ -64,6 +74,7 @@ function inject_zonic() {
     os_icon.classList.remove('icon-etherscan');
     os_icon.classList.add('icon-opensea');
     os_icon.href = url;
+    os_icon.target = '_self';
     document.querySelector('.links-bar').append(os_icon);
 
     // apetimism exclusive: show 3D asset
@@ -100,28 +111,32 @@ function inject_opensea() {
     let contract = url_data[5];
     let token_id = url_data[6];
 
-    // add opensea icon
-    console.log(chain, contract, token_id);
-    /* TODO
-    let os_chain = OS_CHAIN_MAPPER[chain];
-    let url = `https://opensea.io/assets/${os_chain}/${contract}/${token_id}`;
-    let os_icon = document.querySelector('.links-bar a.icon-etherscan').cloneNode();
-    os_icon.classList.remove('icon-etherscan');
-    os_icon.classList.add('icon-opensea');
-    os_icon.href = url;
-    document.querySelector('.links-bar').append(os_icon);
-    */
+    // check supported chain
+    if (!SUPPORTED_CHAINS.includes(chain)) return;
+
+    // add zonic icon
+    find_dom('.item--title', el => {
+      let zonic_chain = ZONIC_CHAIN_MAPPER[chain];
+      let url = `https://zonic.app/asset/${zonic_chain}/${contract}/${token_id}`;
+      el.innerHTML += craft_zonic_icon(url);
+    });
   }
 
   // COLLECTION -- https://opensea.io/collection/<collection-name>
   else if (screen == SCREEN_COLLECTION) {
     console.log(`🧩 screen -> collection`);
 
-    let data = document.querySelector('.sc-f0b2142c-0 a.sc-1f719d57-0').href.split('/');
-    console.log(data);
-    // ['https:', '', 'opensea.io', 'assets', 'optimism', '0x1e4e168c59033e6040eefe294c8d0a02aa770246', '5030']
-    // ['https:', '', 'opensea.io', 'assets', 'arbitrum', '0xdae85d8a71e7b8ec737fffab8e5a6b1d0580de22', '1']
-    // ['https:', '', 'opensea.io', 'assets', 'arbitrum-nova', '0xaeb42df0e269a23177e962740c87cb2d1a2c25fc', '62']
+    find_dom(".sc-f0b2142c-0 a.sc-1f719d57-0[href]:not([href=''])", el => { // href not blank
+      let [_, __, ___, ____, chain, contract, token_id] = el.href.split('/');
+
+      // check supported chain
+      if (!SUPPORTED_CHAINS.includes(chain)) return;
+
+      // add zonic icon
+      let zonic_chain = ZONIC_CHAIN_MAPPER[chain];
+      let url = `https://zonic.app/collection/${zonic_chain}/${contract}`;
+      document.querySelector('h1.sc-29427738-0').innerHTML += craft_zonic_icon(url);
+    }, 500);
   }
 
   // PROFILE --- https://opensea.io/[account|0xJigsaw]
@@ -131,7 +146,7 @@ function inject_opensea() {
 
     // TODO how to get wallet address ?
 
-    // TODO not work with user w/o social links (ex https://opensea.io/nuuneoi)
+    /* TODO not work with user w/o social links (ex https://opensea.io/nuuneoi)
     // get icon bar
     let sel = '.sc-29427738-0.sc-630fc9ab-0.sc-35f75ba4-0';
     let bar = document.querySelector(sel);
@@ -144,6 +159,7 @@ function inject_opensea() {
     zonic_icon.href = 'https://zonic.app/profile/apetimism';
     // inject zonic to icon bar
     bar.prepend(zonic_icon);
+    */
   }
 
   // NOT SUPPORT
@@ -159,3 +175,12 @@ if (site == SITE_ZONIC)
   inject_zonic();
 else if (site == SITE_OPENSEA)
   inject_opensea();
+
+// fix opensea doesn't execute script when screen changed
+navigation.addEventListener("navigate", e => {
+  let new_url = e.destination.url;
+  extract_url_data(new_url);
+  if (site != SITE_OPENSEA) return;
+  console.log('🌊 ' + new_url);
+  inject_opensea();
+});

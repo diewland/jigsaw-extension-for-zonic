@@ -34,6 +34,11 @@ function remove_loading_icon(el) {
   el.classList.remove('mdi-cog');
   el.classList.remove('mdi-spin');
 }
+function craft_zonic_icon(url, h=24, l=5, va='baseline') {
+  return `<a href='${url}' title='Zonic : NFT Marketplace for L2'><img class='fade-in'
+             style='height: ${h}px; margin-left: ${l}px; vertical-align: ${va};'
+             src='https://zonic.app/logo3.svg' /></a>`;
+}
 
 // hotkey
 function bind_hotkeys() {

@@ -13,13 +13,26 @@ const SCREEN_ASSET      = 'asset';
 const SCREEN_ASSET_OS   = 'assets';
 const SCREEN_COLLECTION = 'collection';
 const CHAIN_OPTIMISM    = 'optimism';
+const CHAIN_OPTIMISM_OS = 'optimism';
 const CHAIN_ARBI_ONE    = 'arbitrum_one';
+const CHAIN_ARBI_ONE_OS = 'arbitrum';
 const CHAIN_ARBI_NOVA   = 'arbitrum_nova';
+const CHAIN_ARBI_NOVA_OS= 'arbitrum-nova';
 const OS_CHAIN_MAPPER   = {
-  [CHAIN_OPTIMISM]  : 'optimism',
-  [CHAIN_ARBI_ONE]  : 'arbitrum',
-  [CHAIN_ARBI_NOVA] : 'arbitrum-nova',
+  [CHAIN_OPTIMISM]  : CHAIN_OPTIMISM_OS,
+  [CHAIN_ARBI_ONE]  : CHAIN_ARBI_ONE_OS,
+  [CHAIN_ARBI_NOVA] : CHAIN_ARBI_NOVA_OS,
 };
+const ZONIC_CHAIN_MAPPER   = {
+  [CHAIN_OPTIMISM_OS]  : CHAIN_OPTIMISM,
+  [CHAIN_ARBI_ONE_OS]  : CHAIN_ARBI_ONE,
+  [CHAIN_ARBI_NOVA_OS] : CHAIN_ARBI_NOVA,
+};
+const SUPPORTED_CHAINS = [
+  CHAIN_OPTIMISM,
+  CHAIN_ARBI_ONE_OS,
+  CHAIN_ARBI_NOVA_OS,
+];
 
 const DELAY_REFRESH_METADATA = 15 * 1_000; // 15s
 
