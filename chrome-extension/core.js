@@ -187,4 +187,26 @@ function update_3d_asset(url) {
   img.classList.add('bg-blur');
   // insert 3D model
   document.querySelector('.token-image-wrapper').insertBefore(model, rank);
+  // toggle button
+  let toggle = document.createElement('div');
+  toggle.id = 'js-toggle-3d';
+  toggle.innerHTML = `<i class="mdi-video-3d mdi v-icon notranslate v-theme--dark text-white icon" aria-hidden="true" data-v-8daef1fe="" style="font-size: 32px; height: 32px; width: 32px;"></i>`;
+  toggle.classList.add('toggle-3dz');
+  document.querySelector('.token-image-wrapper').append(toggle);
+  toggle.onclick = evt => {
+    let icon = document.querySelector('#js-toggle-3d i');
+    let flag_3d = icon.classList.contains('mdi-video-3d');
+    if (flag_3d) { // 3d -> 2d
+      icon.classList.remove('mdi-video-3d');
+      icon.classList.add('mdi-video-3d-off');
+      img.classList.remove('bg-blur');
+      model.style.visibility = 'hidden';
+    }
+    else { // 2d -> 3d
+      icon.classList.remove('mdi-video-3d-off');
+      icon.classList.add('mdi-video-3d');
+      img.classList.add('bg-blur');
+      model.style.visibility = 'visible';
+    }
+  };
 }

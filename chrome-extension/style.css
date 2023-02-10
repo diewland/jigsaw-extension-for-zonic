@@ -58,3 +58,12 @@
 .bg-blur {
   filter: blur(10px) brightness(0.25);
 }
+.toggle-3dz {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  background-color: #0006;
+  padding: 0px;
+  border-radius: 4px;
+  cursor: pointer;
+}
