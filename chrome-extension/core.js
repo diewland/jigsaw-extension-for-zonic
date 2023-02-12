@@ -171,7 +171,7 @@ function resolve_3d_url(token_id) {
   // (2) mint keys
   let mint_key = APETI_MINT_KEYS[token_id];
   if (mint_key == 'hidden') return null;
-  return 'https://diew.app/proxy/apeti3d.php?q='+mint_key;
+  return `https://diewland.github.io/l9wdXJwb3N/amlnc2F3X2Nkbg/${mint_key}.glb`;
 }
 function update_3d_asset(url) {
   // craft model-viewer
