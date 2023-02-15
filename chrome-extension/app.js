@@ -115,6 +115,7 @@ function inject_opensea() {
     if (!SUPPORTED_CHAINS.includes(chain)) return;
 
     // add zonic icon
+    // TODO find new icon location
     find_dom('.item--title', el => {
       let zonic_chain = ZONIC_CHAIN_MAPPER[chain];
       let url = `https://zonic.app/asset/${zonic_chain}/${contract}/${token_id}`;
@@ -126,13 +127,14 @@ function inject_opensea() {
   else if (screen == SCREEN_COLLECTION) {
     console.log(`🧩 screen -> collection`);
 
-    find_dom(".sc-f0b2142c-0 a.sc-1f719d57-0[href]:not([href=''])", el => { // href not blank
+    find_dom("article a[href]:not([href=''])", el => {
       let [_, __, ___, ____, chain, contract, token_id] = el.href.split('/');
 
       // check supported chain
       if (!SUPPORTED_CHAINS.includes(chain)) return;
 
       // add zonic icon
+      // TODO find new icon location
       let zonic_chain = ZONIC_CHAIN_MAPPER[chain];
       let url = `https://zonic.app/collection/${zonic_chain}/${contract}`;
       document.querySelector('h1.sc-29427738-0').innerHTML += craft_zonic_icon(url);
@@ -177,10 +179,13 @@ else if (site == SITE_OPENSEA)
   inject_opensea();
 
 // fix opensea doesn't execute script when screen changed
+let prev_os_url = null;
 navigation.addEventListener("navigate", e => {
   let new_url = e.destination.url;
   extract_url_data(new_url);
   if (site != SITE_OPENSEA) return;
+  if (new_url == prev_os_url) return;
   console.log('🌊 ' + new_url);
+  prev_os_url = new_url;
   inject_opensea();
 });
