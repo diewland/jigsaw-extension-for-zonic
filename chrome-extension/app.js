@@ -173,7 +173,7 @@ function inject_opensea() {
 
 // ********** MAIN **********
 
-if (site == SITE_ZONIC)
+if ((site == SITE_ZONIC) || (site == SITE_ZONIC_TEST))
   inject_zonic();
 else if (site == SITE_OPENSEA)
   inject_opensea();

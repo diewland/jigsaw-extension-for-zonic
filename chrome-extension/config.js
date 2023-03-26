@@ -1,4 +1,5 @@
 const SITE_ZONIC        = 'zonic.app';
+const SITE_ZONIC_TEST   = 'testnet.zonic.app';
 const SITE_OPENSEA      = 'opensea.io';
 
 const KEY_SLASH         = '/';
