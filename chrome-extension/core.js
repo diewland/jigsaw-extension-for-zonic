@@ -216,7 +216,7 @@ function craft_url(base, params) {
   new_url.search = new URLSearchParams(params);
   return new_url.toString();
 }
-function craft_url2(base, params, from_id, to_id) {
+function craft_reveal_url(base, params, from_id, to_id) {
   base = base.replace(/\d+$/, from_id);
   params.from_id = from_id;
   params.to_id = to_id;

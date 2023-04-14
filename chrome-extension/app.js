@@ -104,12 +104,12 @@ function inject_zonic() {
           el.click();
           // jump to next page
           location.href = from_id < to_id
-            ? craft_url2(url_ori, params, from_id+1, to_id) // next token
+            ? craft_reveal_url(url_ori, params, from_id+1, to_id) // next token
             : url_ori; // break
         });
       }
       else { // jump to from_id
-        location.href = craft_url2(url_ori, params, from_id, to_id);
+        location.href = craft_reveal_url(url_ori, params, from_id, to_id);
       }
     }
   }
