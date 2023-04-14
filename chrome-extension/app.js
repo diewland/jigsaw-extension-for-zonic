@@ -1,15 +1,22 @@
 // screen variables
-let url = null;
+let url_ori = null;
 let url_data = null;
 let site = null;
 let screen = null;
 
+// get params
+let params = location.search ? Object.assign(...location.search.substr(1)
+  .split('&')
+  .map(r => r.split('='))
+  .map(r => ({ [r[0]]: r[1] }))
+) : {};
+
 // extract data from url
 function extract_url_data(new_url) {
-  url = new_url;
-  url_data = url.split('/');
+  url_ori = new_url.split('?')[0]; // remove params
+  url_data = url_ori.split('/');
   site = url_data[2];
-  screen = url_data[3].split('?')[0];
+  screen = url_data[3];
 }
 extract_url_data(location.href);
 
@@ -52,7 +59,7 @@ function inject_zonic() {
 
     let chain = url_data[4];
     let contract = url_data[5];
-    let token_id = url_data[6];
+    let token_id = +url_data[6];
 
     // auto reload screen when click Refresh Metadata
     find_dom('.controls-area i.mdi-refresh', el => {
@@ -79,17 +86,37 @@ function inject_zonic() {
 
     // apetimism exclusive: show 3D asset
     if ((chain == CHAIN_OPTIMISM) && (contract.toLowerCase() == APETI_ADDR)) {
-      let url = resolve_3d_url(+token_id);
+      let url = resolve_3d_url(token_id);
       if (url == null) return;
       import_model_viewer();
       update_3d_asset(url);
       console.log(`🐵 woo hoo!`);
     }
+
+    // auto reveal
+    let from_id = +(params.from_id || token_id || 0);
+    let to_id = +(params.to_id || 0);
+    if (to_id > 0) { // active!
+      // refresh metadata
+      if (token_id == from_id) {
+        find_dom('.controls-area i.mdi-refresh', el => {
+          // click refresh button
+          el.click();
+          // jump to next page
+          location.href = from_id < to_id
+            ? craft_url2(url_ori, params, from_id+1, to_id) // next token
+            : url_ori; // break
+        });
+      }
+      else { // jump to from_id
+        location.href = craft_url2(url_ori, params, from_id, to_id);
+      }
+    }
   }
 
   // NOT SUPPORT
   else {
-    console.log(`🧩 not support url ${url}`);
+    console.log(`🧩 not support url ${url_ori}`);
   }
 
 }
@@ -166,7 +193,7 @@ function inject_opensea() {
 
   // NOT SUPPORT
   else {
-    console.log(`🧩 not support url ${url}`);
+    console.log(`🧩 not support url ${url_ori}`);
   }
 
 }

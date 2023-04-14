@@ -209,3 +209,16 @@ function update_3d_asset(url) {
     }
   };
 }
+
+// url
+function craft_url(base, params) {
+  let new_url = new URL(base);
+  new_url.search = new URLSearchParams(params);
+  return new_url.toString();
+}
+function craft_url2(base, params, from_id, to_id) {
+  base = base.replace(/\d+$/, from_id);
+  params.from_id = from_id;
+  params.to_id = to_id;
+  return craft_url(base, params);
+}
