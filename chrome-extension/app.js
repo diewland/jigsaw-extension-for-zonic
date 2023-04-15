@@ -112,6 +112,17 @@ function inject_zonic() {
         location.href = craft_reveal_url(url_ori, params, from_id, to_id);
       }
     }
+
+    // auto reveal (UI)
+    find_dom('.box.token-properties', el => {
+      let reveal_box = craft_reveal_box(el, from_id);
+      document.querySelector('.token-price-history').parentElement.appendChild(reveal_box);
+      document.getElementById('jig_reveal').onclick = _ => {
+        let from_id = +document.getElementById('jig_from_id').value;
+        let to_id = +document.getElementById('jig_to_id').value;
+        location.href = craft_reveal_url(url_ori, params, from_id, to_id);
+      };
+    });
   }
 
   // NOT SUPPORT

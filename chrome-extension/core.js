@@ -222,3 +222,38 @@ function craft_reveal_url(base, params, from_id, to_id) {
   params.to_id = to_id;
   return craft_url(base, params);
 }
+
+// box
+function craft_reveal_box(src_node, from_id=1) {
+  // clone from properties box
+  let reveal_box = src_node.cloneNode();
+  reveal_box.classList.remove('token-properties');
+  reveal_box.classList.add('auto-reveal-tool');
+  reveal_box.innerHTML = src_node.innerHTML;
+  // update header
+  let icon = reveal_box.querySelector('.box-header i');
+  icon.classList.remove('mdi-view-grid-outline');
+  icon.classList.add('mdi-tools');
+  reveal_box.querySelector('.box-header-text').innerHTML = 'Auto Reveal Tool';
+  reveal_box.querySelector('.box-header-expandable-icon').style.display = 'none';
+  // update form
+  reveal_box.querySelector('.box-body').innerHTML = `
+    <div class="dialog-section" data-v-c2b171d0="" style='width: 30%; float: left; margin-right: 10px;'>
+      <div class="dialog-section-label" data-v-c2b171d0="">From ID</div>
+      <div class="dialog-input-container" data-v-c2b171d0="">
+        <input id='jig_from_id' class="dialog-section-input-box" type="number" min="0" step="1" placeholder="From ID" data-v-c2b171d0="" value='${from_id}'>
+      </div>
+    </div>
+    <div class="dialog-section" data-v-c2b171d0="" style='width: 30%; float: left; margin-right: 10px;'>
+      <div class="dialog-section-label" data-v-c2b171d0="">To ID</div>
+      <div class="dialog-input-container" data-v-c2b171d0="">
+        <input id='jig_to_id' class="dialog-section-input-box" type="number" min="0" step="1" placeholder="To ID" data-v-c2b171d0="">
+      </div>
+    </div>
+    <div class='cta-area' style='width: 30%; float: left; margin-right: 10px; margin-top: 22px;'>
+      <div id='jig_reveal' class="btn-cta noselect" data-v-75042818="" style='margin-top: 0px;'>Run</div>
+    </div>
+    <div style='clear: both;'></div>
+  `;
+  return reveal_box;
+}
