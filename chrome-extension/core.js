@@ -250,8 +250,8 @@ function craft_reveal_box(src_node, from_id=1) {
         <input id='jig_to_id' class="dialog-section-input-box" type="number" min="0" step="1" placeholder="To ID" data-v-c2b171d0="">
       </div>
     </div>
-    <div class='cta-area' style='width: 30%; float: left; margin-right: 10px; margin-top: 22px;'>
-      <div id='jig_reveal' class="btn-cta noselect" data-v-75042818="" style='margin-top: 0px;'>Run</div>
+    <div class='cta-area' style='width: 30%; float: left; margin-right: 10px; margin-top: 27px;'>
+      <div id='jig_reveal' class="btn-cta noselect" data-v-75042818="" style='margin-top: 0px; padding: 7px 40px;'>Run</div>
     </div>
     <div style='clear: both;'></div>
   `;
