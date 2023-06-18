@@ -166,6 +166,12 @@ function inject_opensea() {
     console.log(`🧩 screen -> collection`);
 
     find_dom("article a[href]:not([href=''])", el => {
+      // check duplicate render
+      let injected = document.getElementsByClassName('fade-in').length > 0;
+      if (injected) {
+        console.log(`🧩 screen already injected`);
+        return;
+      }
       let [_, __, ___, ____, chain, contract, token_id] = el.href.split('/');
 
       // check supported chain
